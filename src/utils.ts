@@ -67,3 +67,25 @@ export function buildQuery(query: Record<string, string | string[]>): Document {
 
   return filter;
 }
+
+// function buildMatchFromQuery(query: Record<string, unknown>) {
+//   const match: any = {};
+
+//   for (const [key, value] of Object.entries(query)) {
+//     // Handle range operators conventionally
+//     if (key.endsWith("_gte")) {
+//       const field = key.replace("_gte", "");
+//       match[field] = { ...(match[field] || {}), $gte: new Date(value ) };
+//     }
+//     else if (key.endsWith("_lte")) {
+//       const field = key.replace("_lte", "");
+//       match[field] = { ...(match[field] || {}), $lte: new Date(value) };
+//     }
+//     else {
+//       // regular field match
+//       match[key] = isNaN(value) ? value : Number(value);
+//     }
+//   }
+
+//   return match;
+// }

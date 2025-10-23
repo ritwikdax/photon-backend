@@ -1,7 +1,7 @@
 import { MongoClient, Db, ServerApiVersion } from "mongodb";
 
-const MONGO_USERNAME = process.env.MONGO_USERNAME;
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+const MONGO_USERNAME = process.env.MONGO_USERNAME || "photon";
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD || "MxCpYt84qtrVjf9T";
 const MONGO_DB_NAME = process.env.MONGO_DB_NAME || "crud";
 
 const uri = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.9bqgxk7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;

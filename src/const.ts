@@ -1,10 +1,10 @@
 export const COLLECTIONS = [
-    "projects",
-    "events",
-    "deliverables",
-    "employees",
-    "clients",
-    "updates",
-    "deliverableUpdates",
-    "events"
-]
+  "projects",
+  "events",
+  "deliverables",
+  "employees",
+  "clients",
+  "updates",
+  "projectDeliverables",
+  "events",
+];
