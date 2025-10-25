@@ -15,7 +15,6 @@ export async function crud(req: Request, res: Response) {
   try {
     switch (req.method) {
       case "POST": {
-        req.body["startDateTime"] = new Date(req.body["startDateTime"]);
         const doc = {
           id: v4(),
           createdAt: now,
