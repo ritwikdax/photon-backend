@@ -7,4 +7,6 @@ export const COLLECTIONS = [
   "updates",
   "projectDeliverables",
   "events",
+  "imageSelections",
+  "selectedImages",
 ];
