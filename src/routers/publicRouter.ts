@@ -6,6 +6,7 @@ import { getThumbnailsHandler } from "../handlers/getThumbnails.js";
 import { getSelectionAllowedHandler } from "../handlers/getSelectionAllowed.js";
 import { getSelectedImagesHandler } from "../handlers/public/getSelectedImages.js";
 import { addSelectedImagehandler } from "../handlers/public/addSelectedImage.js";
+import { deleteSelectionHandler } from "../handlers/public/deleteSelection.js";
 
 const publicRouter = Router();
 
@@ -20,6 +21,6 @@ publicRouter.get("/maxSelection", getSelectionAllowedHandler);
 publicRouter.get("/selectedImages", getSelectedImagesHandler);
 
 publicRouter.post("/selectImage", addSelectedImagehandler);
-publicRouter.delete("/selectImage/:imageId");
+publicRouter.delete("/selectImage/:imageId", deleteSelectionHandler);
 
 export { publicRouter };
