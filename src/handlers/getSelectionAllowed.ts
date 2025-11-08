@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
-import { db } from "../database.js";
+import { getDb } from "../database.js";
 
 export async function getSelectionAllowedHandler(req: Request, res: Response) {
-  const projectId = req.params["projectId"];
+  const projectId = res.locals["projectId"];
+  const merchantId = res.locals["merchantId"];
+
+  const db = await getDb(merchantId);
 
   if (!projectId) {
     return res.status(403).json({ error: true, message: "Not found" });

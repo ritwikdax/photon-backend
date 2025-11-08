@@ -134,3 +134,10 @@ export interface Event extends Entity {
   team: Array<{ employeeId: string; isLead: string }>;
   status: "upcoming" | "done";
 }
+
+// export interface MerchantDetails {
+//   id: string;
+//   email: string;
+//   logo: string;
+
+// }

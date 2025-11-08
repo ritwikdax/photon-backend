@@ -2,21 +2,24 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { publicRouter } from "./routers/publicRouter.js";
-import { aggregateHandler } from "./handlers/aggregate.js";
-import { crud } from "./handlers/crud.js";
-import { validateCollection } from "./mw/collection.validator.js";
-import { analyticsRouter } from "./routers/analyticsRouter.js";
+import { authGuardMiddleware } from "./mw/private/authguard.middileware.js";
+import { privateRouter } from "./routers/privateRouter.js";
+import { injectMerchantDetailsMiddleware } from "./mw/private/injectMerchantDetailsMiddleware.js";
+import { merchantGuardMiddleware } from "./mw/private/merchantguard.middleware.js";
+import { authGuardPublicMiddleware } from "./mw/public/authguardPublic.middleware.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use("/analytics", analyticsRouter);
-//Support client side aggregation
-app.post("/aggregate/:collection", aggregateHandler);
-app.use("/api/:collection", validateCollection, crud);
-app.use("/public", publicRouter);
+app.use("/public", authGuardPublicMiddleware, publicRouter);
+app.use(
+  "/api",
+  authGuardMiddleware,
+  injectMerchantDetailsMiddleware,
+  merchantGuardMiddleware,
+  privateRouter
+);
 
 const PORT = 3001;
 app.listen(PORT, () =>

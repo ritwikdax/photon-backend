@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { db } from "../database.js";
+import { getDb } from "../database.js";
 
 export async function aggregateHandler(req: Request, res: Response) {
   const { collection: collectionName } = req.params;
   try {
+    const db = await getDb(res.locals["merchantID"]);
     if (!db)
       return res.status(503).json({ error: "Database not connected yet" });
     const collection = db.collection(collectionName);

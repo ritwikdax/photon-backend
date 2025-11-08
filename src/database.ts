@@ -1,15 +1,13 @@
 import { MongoClient, Db, ServerApiVersion } from "mongodb";
-
-const MONGO_USERNAME = process.env.MONGO_USERNAME || "photon";
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD || "MxCpYt84qtrVjf9T";
-const MONGO_DB_NAME = process.env.MONGO_DB_NAME || "crud";
+import { env, ENV_VARIABLES } from "./utils/env.js";
+const MONGO_USERNAME = env(ENV_VARIABLES.MONGO_USERNAME);
+const MONGO_PASSWORD = env(ENV_VARIABLES.MONGO_PASSWORD);
+const MONGO_DB_NAME = env(ENV_VARIABLES.MONGO_DB_NAME);
 
 const uri = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.9bqgxk7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-const dbName = MONGO_DB_NAME;
+const dbCache: Record<string, ReturnType<MongoClient["db"]>> = {};
 
 let db: Db;
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -17,17 +15,22 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
-
-// Connect once on startup
 client
   .connect()
-  .then((client) => {
-    db = client.db(dbName);
-    console.log(`✅ Connected to MongoDB database: ${dbName}`);
+  .then(() => {
+    console.log(`✅ Connected Mongo Client`);
+    db = client.db(MONGO_DB_NAME);
   })
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
     console.log(err);
   });
 
-export { db };
+async function getDb(merchantId: string) {
+  if (!dbCache[merchantId]) {
+    dbCache[merchantId] = client.db(`merchantDb_${merchantId}`);
+  }
+  return dbCache[merchantId];
+}
+
+export { getDb, db };

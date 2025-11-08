@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { db } from "../database.js";
+import { getDb } from "../database.js";
 
 export async function getOccupiedIdsHandler(req: Request, res: Response) {
   try {
+    const db = await getDb(res.locals["merchantId"]);
     const givenStartDateTime = new Date(req.body?.startDateTime);
     const givenEndDateTime = new Date(req.body?.endDateTime);
 

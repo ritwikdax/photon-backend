@@ -1,20 +1,16 @@
 import { Request, Response } from "express";
-import { db } from "../database.js";
+import { getDb } from "../database.js";
 import { getFolderDetails } from "../utils/getFolderDetyailsById.js";
+import { COLLECTIONS } from "../const.js";
 
 export async function getFoldersHandler(req: Request, res: Response) {
   try {
-    const projectId = req.params["projectId"];
+    const projectId = res.locals["projectId"];
+    const merchantId = res.locals["merchantId"];
 
-    if (!projectId) {
-      res.status(403).json({
-        error: true,
-        message: "Project Id is expected as request URL params",
-      });
-    }
-
+    const db = await getDb(merchantId);
     const result = await db
-      .collection("imageSelections")
+      .collection(COLLECTIONS.IMAGE_SELECTIONS)
       .findOne({ projectId: projectId });
 
     const ids = result?.folderIds;

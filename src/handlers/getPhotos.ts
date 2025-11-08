@@ -4,7 +4,6 @@ import { auth } from "../cred.js";
 
 export async function listImagePreviewsHandler(req: Request, res: Response) {
   const folderId = req.params["folderId"];
-
   const nextPageToken = req.query["nextPageToken"];
 
   if (!folderId) {

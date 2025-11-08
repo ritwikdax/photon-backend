@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { db } from "../database.js";
+import { getDb } from "../database.js";
 import { buildProjection, buildQuery } from "../utils.js";
 import { Sort, SortDirection } from "mongodb";
 import { v4 } from "uuid";
@@ -8,6 +8,8 @@ const DEFAULT_LIMIT = 1000;
 
 export async function crud(req: Request, res: Response) {
   const { collection: collectionName } = req.params;
+
+  const db = await getDb(res.locals["merchantId"]);
   if (!db) return res.status(503).json({ error: "Database not connected yet" });
   const collection = db.collection(collectionName);
   const now = new Date();
