@@ -1,12 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { env, ENV_VARIABLES } from "../../utils/env.js";
+
+const excludePaths = [/^\/thumbnail\/[^/]+$/];
+
 export function authGuardPublicMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
+    if (excludePaths.some((pattern) => pattern.test(req.path))) {
+      return next(); // Skip middleware
+    }
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
 

@@ -23,9 +23,13 @@ export async function addSelectedImagehandler(req: Request, res: Response) {
         .status(403)
         .json({ error: true, message: "Image selection not allowed" });
     }
-    await db
-      .collection(COLLECTIONS.SELECTED_IMAGES)
-      .insertOne({ ...parsedBody, id: v4(), createdAt: now, updatedAt: now });
+    await db.collection(COLLECTIONS.SELECTED_IMAGES).insertOne({
+      ...parsedBody,
+      projectId: projectId,
+      id: v4(),
+      createdAt: now,
+      updatedAt: now,
+    });
 
     return res
       .status(201)
