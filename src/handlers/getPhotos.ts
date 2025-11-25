@@ -36,8 +36,8 @@ export async function listImagePreviewsHandler(req: Request, res: Response) {
     const files = result.data.files.map((f: any) => ({
       ...f,
       thumbnailLink: `/public/thumbnail/${f.id}`,
-      // previewUrl: `/public/preview/${f.id}`, ==> Can be considered later
-      previewUrl: `https://drive.google.com/uc?export=view&id=${f.id}`,
+      hdPreviewLink: `/public/preview/${f.id}`,
+      originalLink: `https://drive.google.com/uc?export=view&id=${f.id}`,
     }));
     res.set({
       "Cache-Control": "public, max-age=31536000, immutable",

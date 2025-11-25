@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { google } from "googleapis";
 import { auth } from "../cred.js";
 
-export async function getImagePreviewHandler(req: Request, res: Response) {
+export async function getHdPreviewHandler(req: Request, res: Response) {
   const fileId = req.params["fileId"];
 
   if (!fileId) {
@@ -16,12 +16,14 @@ export async function getImagePreviewHandler(req: Request, res: Response) {
       fields: "thumbnailLink, modifiedTime",
     });
 
-    const thumbnailUrl = file.data.thumbnailLink?.replace(/=s\d+/, "=s640");
-    if (!thumbnailUrl) {
+    const originalLink = file.data.thumbnailLink ?? "";
+    const hdPreviewLink = originalLink.replace(/=s\d+/, "=s1024");
+
+    if (!hdPreviewLink) {
       return res.status(404).send("No thumbnail available for this file");
     }
 
-    const response = await axios.get(thumbnailUrl, {
+    const response = await axios.get(hdPreviewLink, {
       responseType: "arraybuffer",
     });
 

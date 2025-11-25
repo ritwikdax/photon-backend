@@ -19,15 +19,22 @@ export async function aggregateHandler(req: Request, res: Response) {
       "$accumulator",
       "$set",
     ];
+
+    if (!Array.isArray(pipeline))
+      return res.status(400).json({ error: "Pipeline must be an array" });
+
+    if (!pipeline?.length) {
+      return res
+        .status(400)
+        .json({ error: "Empty Pipeline, nothing to aggregate" });
+    }
+
     const hasForbidden = pipeline.some((stage: any) =>
       Object.keys(stage).some((key) => forbiddenOps.includes(key))
     );
     if (hasForbidden) {
       return res.status(400).json({ error: "Forbidden aggregation operators" });
     }
-
-    if (!Array.isArray(pipeline))
-      return res.status(400).json({ error: "Pipeline must be an array" });
 
     const result = await collection.aggregate(pipeline).toArray();
     return res.json(result);

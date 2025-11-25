@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { env, ENV_VARIABLES } from "../../utils/env.js";
 
-const excludePaths = [/^\/thumbnail\/[^/]+$/];
+const excludePaths = [/^\/thumbnail\/[^/]+$/, /^\/preview\/[^/]+$/];
 
 export function authGuardPublicMiddleware(
   req: Request,

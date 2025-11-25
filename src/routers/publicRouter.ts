@@ -7,6 +7,7 @@ import { getSelectionAllowedHandler } from "../handlers/getSelectionAllowed.js";
 import { getSelectedImagesHandler } from "../handlers/public/getSelectedImages.js";
 import { addSelectedImagehandler } from "../handlers/public/addSelectedImage.js";
 import { deleteSelectionHandler } from "../handlers/public/deleteSelection.js";
+import { getHdPreviewHandler } from "../handlers/getImagePreview.js";
 
 const publicRouter = Router();
 
@@ -17,6 +18,7 @@ publicRouter.get("/track", trackDeliverablesHandler);
 publicRouter.get("/folders", getFoldersHandler);
 publicRouter.get("/images/:folderId/", listImagePreviewsHandler);
 publicRouter.get("/thumbnail/:fileId", getThumbnailsHandler);
+publicRouter.get("/preview/:fileId", getHdPreviewHandler);
 publicRouter.get("/maxSelection", getSelectionAllowedHandler);
 publicRouter.get("/selectedImages", getSelectedImagesHandler);
 
