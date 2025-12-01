@@ -9,7 +9,12 @@ import { merchantGuardMiddleware } from "./mw/private/merchantguard.middleware.j
 import { authGuardPublicMiddleware } from "./mw/public/authguardPublic.middleware.js";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", authGuardPublicMiddleware, publicRouter);
