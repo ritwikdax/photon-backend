@@ -22,8 +22,12 @@ client
     db = client.db(MONGO_DB_NAME);
   })
   .catch((err) => {
-    console.error("❌ MongoDB connection error:", err);
-    console.log(err);
+    console.error("❌ MongoDB connection error:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      uri: uri.replace(MONGO_PASSWORD, "***REDACTED***"),
+    });
   });
 
 async function getDb(merchantId: string) {

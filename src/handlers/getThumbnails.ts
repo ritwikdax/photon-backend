@@ -33,7 +33,12 @@ export async function getThumbnailsHandler(req: Request, res: Response) {
 
     res.send(response.data);
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in getThumbnailsHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      fileId: req.params.fileId,
+    });
     res.status(500).send("Error fetching thumbnail");
   }
 }

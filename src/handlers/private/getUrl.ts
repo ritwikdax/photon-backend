@@ -13,7 +13,12 @@ export async function getUrlHandler(req: Request, res: Response) {
       )}?token=${publicToken}`,
     });
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in getUrlHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      publicToken: res.locals["publicToken"],
+    });
     res
       .status(500)
       .json({ error: true, message: err?.message ?? "No Error Message found" });

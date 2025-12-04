@@ -42,7 +42,15 @@ export async function addSelectedImageNoteHandler(req: Request, res: Response) {
 
     return res.status(201).json({ message: "Image note added successfully" });
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in addSelectedImageNoteHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      imageId: req.params["imageId"],
+      body: req.body,
+      projectId: res.locals["projectId"],
+      merchantId: res.locals["merchantId"],
+    });
     return res.status(500).send("Error adding note to selected image");
   }
 }

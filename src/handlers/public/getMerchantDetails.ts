@@ -14,7 +14,12 @@ export async function getMerchantLogoHandler(req: Request, res: Response) {
       logoDark: merchantDetails?.logoDark,
     });
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in getMerchantLogoHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      merchantId: res.locals["merchantId"],
+    });
     return res.status(500).send("Error fetching merchant details");
   }
 }

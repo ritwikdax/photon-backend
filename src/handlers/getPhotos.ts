@@ -46,6 +46,16 @@ export async function listImagePreviewsHandler(req: Request, res: Response) {
       .status(200)
       .json({ nextPageToken: result.data.nextPageToken, images: files });
   } catch (err: any) {
-    res.status(500).json({ error: true, message: ",kjbkbibikbibi" });
+    console.error("❌ Error in listImagePreviewsHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      folderId,
+      nextPageToken,
+    });
+    return res.status(500).json({
+      error: true,
+      message: "Something Went Wrong In Fetching Images",
+    });
   }
 }

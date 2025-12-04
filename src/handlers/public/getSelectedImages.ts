@@ -17,7 +17,13 @@ export async function getSelectedImagesHandler(req: Request, res: Response) {
 
     return res.status(200).json(images);
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in getSelectedImagesHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      projectId: res.locals["projectId"],
+      merchantId: res.locals["merchantId"],
+    });
     return res.status(500).send("Error fetching selected images");
   }
 }

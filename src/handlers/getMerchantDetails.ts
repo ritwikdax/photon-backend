@@ -13,7 +13,12 @@ export async function getMerchatDetailsHandler(req: Request, res: Response) {
       .status(200)
       .json({ merchantDetails, merchantId, mail: res.locals["email"] });
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in getMerchatDetailsHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      merchantId: res.locals["merchantId"],
+    });
     return res.status(500).send("Error fetching merchant details");
   }
 }

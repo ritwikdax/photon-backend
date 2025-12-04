@@ -20,7 +20,14 @@ export async function deleteSelectionHandler(req: Request, res: Response) {
       .deleteOne({ imageId: imageId, projectId: projectId });
     return res.status(201).json({ message: "Image deleted successfully" });
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in deleteSelectionHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      imageId: req.params["imageId"],
+      projectId: res.locals["projectId"],
+      merchantId: res.locals["merchantId"],
+    });
     return res.status(500).send("Error deleting selected image");
   }
 }

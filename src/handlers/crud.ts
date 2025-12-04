@@ -83,7 +83,14 @@ export async function crud(req: Request, res: Response) {
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (err: any) {
-    console.error("❌ Error:", err);
+    console.error("❌ Error in crud handler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      method: req.method,
+      collection: req.params.collection,
+      merchantId: res.locals["merchantId"],
+    });
     return res.status(500).json({ error: err.message });
   }
 }

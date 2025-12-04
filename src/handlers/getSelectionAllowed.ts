@@ -19,7 +19,13 @@ export async function getSelectionAllowedHandler(req: Request, res: Response) {
       isSelectionAllowed: result?.isSelectionAllowed,
     });
   } catch (err: any) {
-    console.error(err.message);
+    console.error("❌ Error in getSelectionAllowedHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      projectId: res.locals["projectId"],
+      merchantId: res.locals["merchantId"],
+    });
     res.status(500).send("Error fetching details");
   }
 }

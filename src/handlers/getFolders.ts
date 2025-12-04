@@ -24,7 +24,14 @@ export async function getFoldersHandler(req: Request, res: Response) {
       folderDetails.push({ folderId: details.id, name: details.name });
     }
     res.status(200).json({ folders: folderDetails });
-  } catch (err) {
+  } catch (err: any) {
+    console.error("❌ Error in getFoldersHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      projectId: res.locals["projectId"],
+      merchantId: res.locals["merchantId"],
+    });
     res
       .status(403)
       .json({ error: true, message: "Make sure folders ids are correct" });

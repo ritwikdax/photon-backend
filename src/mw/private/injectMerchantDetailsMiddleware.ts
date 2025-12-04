@@ -67,7 +67,14 @@ export async function injectMerchantDetailsMiddleware(
       console.log(res.locals["isActiveMerchant"]);
       next();
     }
-  } catch (err) {
+  } catch (err: any) {
+    console.error("❌ Error in injectMerchantDetailsMiddleware:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      email: res.locals["email"],
+      hasToken: !!res.locals["token"],
+    });
     return res
       .status(401)
       .json({ error: true, message: "User not logged in or invalid token" });

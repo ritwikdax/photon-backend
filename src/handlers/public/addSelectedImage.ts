@@ -35,7 +35,14 @@ export async function addSelectedImagehandler(req: Request, res: Response) {
       .status(201)
       .json({ message: "Image selection added successfully" });
   } catch (err: any) {
-    console.error(err.message);
-    return res.status(500).send("Error fetching selected images");
+    console.error("❌ Error in addSelectedImagehandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      body: req.body,
+      projectId: res.locals["projectId"],
+      merchantId: res.locals["merchantId"],
+    });
+    return res.status(500).send("Error adding selected image");
   }
 }

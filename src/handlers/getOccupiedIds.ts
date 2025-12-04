@@ -40,7 +40,14 @@ export async function getOccupiedIdsHandler(req: Request, res: Response) {
     }
     return res.status(200).json([]);
   } catch (err: any) {
-    console.error("❌ Error:", err);
+    console.error("❌ Error in getOccupiedIdsHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      startDateTime: req.body?.startDateTime,
+      endDateTime: req.body?.endDateTime,
+      merchantId: res.locals["merchantId"],
+    });
     return res.status(500).json({ error: err.message });
   }
 }

@@ -57,8 +57,12 @@ export function buildQuery(query: Record<string, string | string[]>): Document {
     else if (key === "_id") {
       try {
         value = new ObjectId(value);
-      } catch {
-        console.warn("⚠️ Invalid ObjectId:", value);
+      } catch (err: any) {
+        console.warn("⚠️ Invalid ObjectId:", {
+          value,
+          error: err?.message,
+          key,
+        });
       }
     }
 

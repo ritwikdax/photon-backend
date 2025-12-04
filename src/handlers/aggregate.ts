@@ -39,7 +39,14 @@ export async function aggregateHandler(req: Request, res: Response) {
     const result = await collection.aggregate(pipeline).toArray();
     return res.json(result);
   } catch (err: any) {
-    console.error("❌ Error:", err);
+    console.error("❌ Error in aggregateHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      collection: req.params.collection,
+      pipeline: req.body.pipeline,
+      merchantId: res.locals["merchantID"],
+    });
     return res.status(500).json({ error: err.message });
   }
 }

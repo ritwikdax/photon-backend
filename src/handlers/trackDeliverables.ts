@@ -7,30 +7,44 @@ export default async function trackDeliverablesHandler(
   req: Request,
   res: Response
 ) {
-  const projectId = res.locals["projectId"];
-  const merchantID = res.locals["merchantId"];
+  try {
+    const projectId = res.locals["projectId"];
+    const merchantID = res.locals["merchantId"];
 
-  const db = await getDb(merchantID);
-  const result = db.collection(COLLECTIONS.PROJECT_DELIVERABLES).aggregate([
-    {
-      $match: { projectId: projectId },
-    },
-    ...trackDeliverablesPipeline,
-  ]);
+    const db = await getDb(merchantID);
+    const result = db.collection(COLLECTIONS.PROJECT_DELIVERABLES).aggregate([
+      {
+        $match: { projectId: projectId },
+      },
+      ...trackDeliverablesPipeline,
+    ]);
 
-  const deliverablesData = await result.toArray();
+    const deliverablesData = await result.toArray();
 
-  if (!deliverablesData.length) {
-    return res.status(404).json({ message: "No deliverables found" });
+    if (!deliverablesData.length) {
+      return res.status(404).json({ message: "No deliverables found" });
+    }
+
+    //Increment track count
+    db.collection("projects").updateOne(
+      { id: projectId },
+      { $set: { lastTrackedAt: new Date() }, $inc: { trackCount: 1 } }
+    );
+
+    return res
+      .status(200)
+      .json((deliverablesData?.length && deliverablesData[0]) || {});
+  } catch (err: any) {
+    console.error("❌ Error in trackDeliverablesHandler:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      projectId: res.locals["projectId"],
+      merchantId: res.locals["merchantId"],
+    });
+    return res.status(500).json({
+      error: true,
+      message: "Error tracking deliverables",
+    });
   }
-
-  //Increment track count
-  db.collection("projects").updateOne(
-    { id: projectId },
-    { $set: { lastTrackedAt: new Date() }, $inc: { trackCount: 1 } }
-  );
-
-  return res
-    .status(200)
-    .json((deliverablesData?.length && deliverablesData[0]) || {});
 }

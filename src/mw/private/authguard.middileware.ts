@@ -26,7 +26,13 @@ export function authGuardMiddleware(
       });
     }
     next();
-  } catch (err) {
+  } catch (err: any) {
+    console.error("❌ Error in authGuardMiddleware:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      hasAuthHeader: !!req.headers["authorization"],
+    });
     return res
       .status(401)
       .json({ error: true, message: "User not logged in or invalid token" });

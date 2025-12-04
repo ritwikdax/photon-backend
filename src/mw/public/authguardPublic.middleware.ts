@@ -40,6 +40,13 @@ export function authGuardPublicMiddleware(
     }
     next();
   } catch (err: any) {
+    console.error("❌ Error in authGuardPublicMiddleware:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      path: req.path,
+      headers: req.headers.authorization ? "Present" : "Missing",
+    });
     return res.status(401).json({ error: true, message: err?.message });
   }
 }

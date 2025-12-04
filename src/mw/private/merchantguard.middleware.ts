@@ -14,7 +14,13 @@ export async function merchantGuardMiddleware(
       });
     }
     next();
-  } catch (err) {
+  } catch (err: any) {
+    console.error("❌ Error in merchantGuardMiddleware:", {
+      error: err,
+      message: err?.message,
+      stack: err?.stack,
+      isActiveMerchant: res.locals["isActiveMerchant"],
+    });
     return res
       .status(401)
       .json({ error: true, message: "Merchant Status error" });
