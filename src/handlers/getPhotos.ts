@@ -39,9 +39,6 @@ export async function listImagePreviewsHandler(req: Request, res: Response) {
       hdPreviewLink: `/public/preview/${f.id}`,
       originalLink: `https://drive.google.com/uc?export=view&id=${f.id}`,
     }));
-    res.set({
-      "Cache-Control": "public, max-age=31536000, immutable",
-    });
     return res
       .status(200)
       .json({ nextPageToken: result.data.nextPageToken, images: files });
