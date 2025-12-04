@@ -8,7 +8,8 @@ import { getSelectedImagesHandler } from "../handlers/public/getSelectedImages.j
 import { addSelectedImagehandler } from "../handlers/public/addSelectedImage.js";
 import { deleteSelectionHandler } from "../handlers/public/deleteSelection.js";
 import { getHdPreviewHandler } from "../handlers/getImagePreview.js";
-import { getMerchantLogoHandler } from "../handlers/public/getMerchantLogo.js";
+import { getMerchantLogoHandler } from "../handlers/public/getMerchantDetails.js";
+import { addSelectedImageNoteHandler } from "../handlers/public/addSelectedImageNote.js";
 
 const publicRouter = Router();
 
@@ -23,6 +24,7 @@ publicRouter.get("/preview/:fileId", getHdPreviewHandler);
 publicRouter.get("/maxSelection", getSelectionAllowedHandler);
 publicRouter.get("/selectedImages", getSelectedImagesHandler);
 publicRouter.get("/merchantLogo", getMerchantLogoHandler);
+publicRouter.put("/addNote/:imageId", addSelectedImageNoteHandler);
 
 publicRouter.post("/selectImage", addSelectedImagehandler);
 publicRouter.delete("/selectImage/:imageId", deleteSelectionHandler);

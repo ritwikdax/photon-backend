@@ -9,7 +9,10 @@ export async function getSelectedImagesHandler(req: Request, res: Response) {
     const db = await getDb(merchantId);
     const images = await db
       .collection(COLLECTIONS.SELECTED_IMAGES)
-      .find({ projectId: projectId }, { projection: { imageId: 1, _id: 0 } })
+      .find(
+        { projectId: projectId },
+        { projection: { imageId: 1, _id: 0, imageFileName: 1, note: 1 } }
+      )
       .toArray();
 
     return res.status(200).json(images);

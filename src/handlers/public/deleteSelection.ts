@@ -21,6 +21,6 @@ export async function deleteSelectionHandler(req: Request, res: Response) {
     return res.status(201).json({ message: "Image deleted successfully" });
   } catch (err: any) {
     console.error(err.message);
-    return res.status(500).send("Error fetching selected images");
+    return res.status(500).send("Error deleting selected image");
   }
 }
