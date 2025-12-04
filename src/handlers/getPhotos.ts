@@ -20,14 +20,14 @@ export async function listImagePreviewsHandler(req: Request, res: Response) {
         q: `'${folderId}' in parents and mimeType contains 'image/' and trashed = false`,
         fields: "nextPageToken, files(id, name, mimeType, modifiedTime, size)",
         pageToken: nextPageToken,
-        orderBy: "createdTime",
+        orderBy: "name",
       };
     } else {
       driveQuery = {
         q: `'${folderId}' in parents and mimeType contains 'image/' and trashed = false`,
         fields: "nextPageToken, files(id, name, mimeType, modifiedTime, size)",
         pageToken: nextPageToken,
-        orderBy: "createdTime",
+        orderBy: "name",
       };
     }
 
